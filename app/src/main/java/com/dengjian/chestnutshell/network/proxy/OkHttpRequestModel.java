@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.dengjian.chestnutshell.network.ICallback;
+import com.dengjian.chestnutshell.network.ICallbackListener;
 import com.dengjian.chestnutshell.network.IHttpRequest;
 
 import java.util.Map;
@@ -27,12 +27,12 @@ public class OkHttpRequestModel implements IHttpRequest {
     }
 
     @Override
-    public void post(String url, Map<String, Object> params, ICallback callback) {
+    public void post(String url, Map<String, Object> params, ICallbackListener callback) {
 
     }
 
     @Override
-    public void get(String url, Map<String, Object> params, ICallback callback) {
+    public void get(String url, Map<String, Object> params, ICallbackListener callback) {
         if (TextUtils.isEmpty(url)) {
             return ;
         }
@@ -42,10 +42,30 @@ public class OkHttpRequestModel implements IHttpRequest {
             Response execute = call.execute();
 
             if (null != callback) {
-                callback.onSuccess(execute.body().string());
+                callback.onSuccess(execute.body().byteStream());    // TODO to check
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setData(byte[] data) {
+
+    }
+
+    @Override
+    public void setUrl(String url) {
+
+    }
+
+    @Override
+    public void setListener(ICallbackListener listener) {
+
+    }
+
+    @Override
+    public void execute() {
+
     }
 }

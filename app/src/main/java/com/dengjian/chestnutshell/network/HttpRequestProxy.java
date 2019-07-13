@@ -29,7 +29,7 @@ public class HttpRequestProxy implements IHttpRequest {
     }
 
     @Override
-    public void post(String url, Map<String, Object> params, ICallback callback) {
+    public void post(String url, Map<String, Object> params, ICallbackListener callback) {
         if (null == mHttp) {
             return ;
         }
@@ -37,10 +37,30 @@ public class HttpRequestProxy implements IHttpRequest {
     }
 
     @Override
-    public void get(String url, Map<String, Object> params, ICallback callback) {
+    public void get(String url, Map<String, Object> params, ICallbackListener callback) {
         if (null == mHttp) {
             return ;
         }
         mHttp.get(url, params, callback);
+    }
+
+    @Override
+    public void setUrl(String url) {
+
+    }
+
+    @Override
+    public void setData(byte[] data) {
+
+    }
+
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void setListener(ICallbackListener listener) {
+
     }
 }

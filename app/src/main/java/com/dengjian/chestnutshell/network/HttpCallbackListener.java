@@ -1,10 +1,10 @@
 package com.dengjian.chestnutshell.network;
 
-import com.dengjian.chestnutshell.network.ICallback;
+import java.io.InputStream;
 
-public abstract class HttpCallback<Result> implements ICallback {
+public abstract class HttpCallbackListener<Result> implements ICallbackListener {
     @Override
-    public void onSuccess(String result) {
+    public void onSuccess(InputStream result) {
         // TODO
         onSuccess((Result) result);
     }

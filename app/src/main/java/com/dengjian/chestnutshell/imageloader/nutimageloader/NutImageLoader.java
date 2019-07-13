@@ -14,11 +14,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class NutImageLoader {
+    private static volatile NutImageLoader sInstance;
     private final ExecutorService mExecutorService;
     private IImageCache mImageCache = new MemoryCache();
 
-    public NutImageLoader() {
+    private NutImageLoader() {
         mExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    }
+
+    public NutImageLoader getInstance() {
+        if (null == sInstance) {
+            synchronized (NutImageLoader.class) {
+                if (null == sInstance) {
+                    sInstance = new NutImageLoader();
+                }
+            }
+        }
+
+        return sInstance;
     }
 
     // 注入缓存
