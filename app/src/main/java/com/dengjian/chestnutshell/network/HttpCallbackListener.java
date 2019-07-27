@@ -1,18 +1,22 @@
 package com.dengjian.chestnutshell.network;
 
-import java.io.InputStream;
+import com.google.gson.Gson;
 
 public abstract class HttpCallbackListener<Result> implements ICallbackListener {
     @Override
-    public void onSuccess(InputStream result) {
-        // TODO
-        onSuccess((Result) result);
-    }
+    public void onSuccess(String result) {
+        Gson gson = new Gson();
+        Class<?> clazz = HttpProxyUtil.analysisClassInfo(this);
+        Result objResult = (Result) gson.fromJson(result, clazz);
 
-    public abstract void onSuccess(Result result);
+        // 给实现类
+        onSuccess(objResult);
+    }
 
     @Override
     public void onFailure(String result) {
 
     }
+
+    public abstract void onSuccess(Result result);
 }

@@ -19,10 +19,15 @@ public class JsonCallbackListener<T> implements ICallbackListener {
         mIJsonDataListener = listener;
     }
 
-    @Override
     public void onSuccess(InputStream inputStream) {
         String content = getContent(inputStream);
         T t = mGson.fromJson(content, mResponse);
+        mIJsonDataListener.onSuccess(t);
+    }
+
+    @Override
+    public void onSuccess(String result) {
+        T t = mGson.fromJson(result, mResponse);
         mIJsonDataListener.onSuccess(t);
     }
 

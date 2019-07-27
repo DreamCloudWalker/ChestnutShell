@@ -17,6 +17,9 @@ public class NutImageLoader {
     private static volatile NutImageLoader sInstance;
     private final ExecutorService mExecutorService;
     private IImageCache mImageCache = new MemoryCache();
+    private int mLoadingImgId;
+    private int mLoadingFailedImgId;
+
 
     private NutImageLoader() {
         mExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -37,6 +40,14 @@ public class NutImageLoader {
     // 注入缓存
     public void setImageCache(IImageCache cache) {
         mImageCache = cache;
+    }
+
+    public void setLoadingFailedImgId(int loadingFailedImgId) {
+        this.mLoadingFailedImgId = loadingFailedImgId;
+    }
+
+    public void setLoadingImgId(int loadingImgId) {
+        this.mLoadingImgId = loadingImgId;
     }
 
     public void displayImage(String url, ImageView imageView) {

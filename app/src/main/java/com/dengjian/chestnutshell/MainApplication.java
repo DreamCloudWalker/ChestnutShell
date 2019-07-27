@@ -2,8 +2,8 @@ package com.dengjian.chestnutshell;
 
 import android.app.Application;
 
-import com.dengjian.chestnutshell.network.HttpRequestProxy;
-import com.dengjian.chestnutshell.network.proxy.OkHttpRequestModel;
+import com.dengjian.chestnutshell.network.HttpProcessorProxy;
+import com.dengjian.chestnutshell.network.proxy.OkHttpProcessor;
 import com.squareup.leakcanary.LeakCanary;
 
 public class MainApplication extends Application {
@@ -19,7 +19,7 @@ public class MainApplication extends Application {
         }
         LeakCanary.install(this);
 
-        HttpRequestProxy.init(new OkHttpRequestModel(getApplicationContext()));
+        HttpProcessorProxy.init(new OkHttpProcessor());
 
 
     }

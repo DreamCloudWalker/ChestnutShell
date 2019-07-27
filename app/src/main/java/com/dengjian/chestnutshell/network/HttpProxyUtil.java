@@ -3,9 +3,14 @@ package com.dengjian.chestnutshell.network;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-public class HttpHelper {
+public class HttpProxyUtil {
 
-    public static Class<?> analysisClazzInfo(Object object) {
+    /**
+     * 需要得到class字节码
+     * @param object
+     * @return
+     */
+    public static Class<?> analysisClassInfo(Object object) {
         if (null == object) {
             return null;
         }

@@ -1,7 +1,6 @@
 package com.dengjian.chestnutshell.network.nuthttp;
 
 import com.dengjian.chestnutshell.network.ICallbackListener;
-import com.dengjian.chestnutshell.network.IHttpRequest;
 import com.google.gson.Gson;
 
 import java.io.UnsupportedEncodingException;

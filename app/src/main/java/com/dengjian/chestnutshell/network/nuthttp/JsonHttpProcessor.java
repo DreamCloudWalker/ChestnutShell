@@ -1,28 +1,28 @@
 package com.dengjian.chestnutshell.network.nuthttp;
 
 import com.dengjian.chestnutshell.network.ICallbackListener;
-import com.dengjian.chestnutshell.network.IHttpRequest;
+import com.dengjian.chestnutshell.network.IHttpProcessor;
 import com.dengjian.chestnutshell.utils.Utils;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-public class JsonHttpRequest implements IHttpRequest {
+public class JsonHttpProcessor implements IHttpRequest {
     private String mUrl;
     private byte[] mData;
     private HttpURLConnection mHttpUrlConnecton;
     private ICallbackListener mCallBackListener;
 
-    @Override
     public void setListener(ICallbackListener callBackListener) {
         mCallBackListener = callBackListener;
     }
 
-    @Override
     public void execute() {
         URL url = null;
         OutputStream out = null;
@@ -45,7 +45,7 @@ public class JsonHttpRequest implements IHttpRequest {
 
             if (mHttpUrlConnecton.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream is = mHttpUrlConnecton.getInputStream();
-                mCallBackListener.onSuccess(is);
+                mCallBackListener.onSuccess(readStream(is));
             } else {
                 throw new RuntimeException("请求失败");
             }
@@ -59,23 +59,28 @@ public class JsonHttpRequest implements IHttpRequest {
         }
     }
 
-    @Override
+    private String readStream(InputStream inputStream) {
+        BufferedReader reader = null;
+        StringBuilder result = new StringBuilder();
+        try {
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            Utils.closeQuietly(reader);
+            return result.toString();
+        }
+    }
+
     public void setUrl(String url) {
         mUrl = url;
     }
 
-    @Override
     public void setData(byte[] data) {
         mData = data;
-    }
-
-    @Override
-    public void post(String url, Map<String, Object> params, ICallbackListener callback) {
-
-    }
-
-    @Override
-    public void get(String url, Map<String, Object> params, ICallbackListener callback) {
-
     }
 }
