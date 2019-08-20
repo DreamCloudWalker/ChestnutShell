@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
-import java.sql.Ref;
 import java.util.HashSet;
 
 import dalvik.system.DexClassLoader;
@@ -20,7 +19,7 @@ public class FixDexUtil {
         sLoadedDex.clear();
     }
 
-    public static void loadNoMainDex(Context context) {
+    public static void loadFixedDex(Context context) {
         if (null == context){
             return ;
         }
@@ -58,7 +57,13 @@ public class FixDexUtil {
             Object myDexElements = ReflectUtil.getDexElements(ReflectUtil.getPathList(myClassLoader));
             Object sysDexElements = ReflectUtil.getDexElements(ReflectUtil.getPathList(sysClassLoader));
 
+            // 合并并插桩
+            Object dexElements = ArrayUtil.combineArray(myDexElements, sysDexElements);
 
+            // 赋值前拿到系统的pathList
+            Object sysPathList = ReflectUtil.getPathList(sysClassLoader);
+            // 给系统的PathList重新赋值
+            ReflectUtil.setField(sysPathList, sysPathList.getClass(), dexElements);
         } catch (Exception e) {
             e.printStackTrace();
         }
