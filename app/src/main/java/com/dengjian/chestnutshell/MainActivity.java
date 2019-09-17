@@ -3,7 +3,6 @@ package com.dengjian.chestnutshell;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +11,8 @@ import com.dengjian.chestnutshell.ioc.InjectManager;
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
 import com.dengjian.chestnutshell.ioc.annotation.InjectView;
 import com.dengjian.chestnutshell.ioc.annotation.OnClick;
+import com.dengjian.chestnutshell.ioc.annotation.OnLongClick;
+import com.dengjian.chestnutshell.ioc.annotation.OnTouch;
 import com.dengjian.chestnutshell.model.BusinessModel;
 import com.dengjian.chestnutshell.presenter.BusinessPresenter;
 import com.dengjian.chestnutshell.utils.FileUtil;
@@ -40,7 +41,19 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
 
     @OnClick(R.id.tv_main_ui)
     private void clickTextView() {
-        Toast.makeText(MainActivity.this, "test", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "click test", Toast.LENGTH_SHORT).show();
+    }
+
+    @OnLongClick(R.id.tv_main_ui)
+    private boolean longClickTextView() {
+        Toast.makeText(MainActivity.this, "longclick test", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    @OnTouch(R.id.tv_main_ui)
+    private boolean touchTextView() {
+        Toast.makeText(MainActivity.this, "touch test", Toast.LENGTH_SHORT).show();
+        return false;
     }
 
     private void queryHotFix() {
