@@ -1,6 +1,11 @@
 package com.dengjian.chestnutshell.ioc;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.view.View;
 
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
@@ -13,14 +18,47 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public class InjectManager {
+    private static NetStatusReceiver sReceiver = new NetStatusReceiver();
+
+    @SuppressWarnings("MissingPermission")
+    public static void init(Context context) {
+        if (null == context) {
+            throw new IllegalArgumentException("application is empty");
+        }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            ConnectivityManager.NetworkCallback networkCallback = new NetworkCallbackImpl(context, sReceiver);
+            NetworkRequest.Builder builder = new NetworkRequest.Builder();
+            NetworkRequest request = builder.build();
+            ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (null != manager){
+                manager.registerNetworkCallback(request, networkCallback);
+            }
+        }
+    }
+
+    public static void register(Object object) {
+        sReceiver.registerObserver(object);
+    }
+
+    public static void unregister(Object object) {
+        sReceiver.unRegisterObserver(object);
+    }
+
+    public static void unregisterAllObserver() {
+        sReceiver.unRegisterAllObserver();
+    }
 
     public static void inject(Activity activity) {
+        init(activity);
         injectLayout(activity);
         injectView(activity);
         injectEvent(activity);
     }
 
     private static void injectEvent(Activity activity) {
+        if (null == activity) {
+            throw new IllegalArgumentException("activity is empty");
+        }
         Class<? extends Activity> clazz = activity.getClass();
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
@@ -63,6 +101,9 @@ public class InjectManager {
     }
 
     private static void injectView(Activity activity) {
+        if (null == activity) {
+            throw new IllegalArgumentException("activity is empty");
+        }
         Class<? extends Activity> clazz = activity.getClass();
         Field[] declaredFields = clazz.getDeclaredFields();
         for (Field field : declaredFields) {
@@ -83,6 +124,9 @@ public class InjectManager {
     }
 
     private static void injectLayout(Activity activity) {
+        if (null == activity) {
+            throw new IllegalArgumentException("activity is empty");
+        }
         Class<? extends Activity> clazz = activity.getClass();
         ContentView contentView = clazz.getAnnotation(ContentView.class);
         if (null != contentView) {

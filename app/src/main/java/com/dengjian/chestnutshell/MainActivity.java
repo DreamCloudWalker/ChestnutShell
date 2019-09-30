@@ -10,9 +10,12 @@ import com.dengjian.chestnutshell.activity.BaseActivity;
 import com.dengjian.chestnutshell.ioc.InjectManager;
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
 import com.dengjian.chestnutshell.ioc.annotation.InjectView;
+import com.dengjian.chestnutshell.ioc.annotation.NetSubscribe;
 import com.dengjian.chestnutshell.ioc.annotation.OnClick;
 import com.dengjian.chestnutshell.ioc.annotation.OnLongClick;
 import com.dengjian.chestnutshell.ioc.annotation.OnTouch;
+import com.dengjian.chestnutshell.ioc.typs.NetMode;
+import com.dengjian.chestnutshell.ioc.typs.NetType;
 import com.dengjian.chestnutshell.model.BusinessModel;
 import com.dengjian.chestnutshell.presenter.BusinessPresenter;
 import com.dengjian.chestnutshell.utils.FileUtil;
@@ -37,6 +40,38 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
         InjectManager.inject(this);
 
         queryHotFix();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        InjectManager.register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        InjectManager.unregister(this);
+    }
+
+    @NetSubscribe(mode = NetMode.WIFI_CONNECT)
+    public void onWifiConnected() {
+        Toast.makeText(MainActivity.this, "wifi connected", Toast.LENGTH_SHORT).show();
+    }
+
+    @NetSubscribe(mode = NetMode.MOBILE_CONNECT)
+    public void onMobileConnected() {
+        Toast.makeText(MainActivity.this, "mobile connected", Toast.LENGTH_SHORT).show();
+    }
+
+    @NetSubscribe(mode = NetMode.NONE)
+    public void onLostNetwork() {
+        Toast.makeText(MainActivity.this, "lost network", Toast.LENGTH_SHORT).show();
+    }
+
+    @NetSubscribe(mode = NetMode.AUTO)
+    public void onNetChange(NetType netType) {
+        Toast.makeText(MainActivity.this, "network change", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.tv_main_ui)
