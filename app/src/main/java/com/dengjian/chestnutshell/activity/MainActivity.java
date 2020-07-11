@@ -1,12 +1,15 @@
-package com.dengjian.chestnutshell;
+package com.dengjian.chestnutshell.activity;
 
+import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dengjian.chestnutshell.activity.BaseActivity;
+import com.dengjian.chestnutshell.R;
+import com.dengjian.chestnutshell.databus.LiveDataBus;
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
 import com.dengjian.chestnutshell.ioc.annotation.InjectView;
 import com.dengjian.chestnutshell.ioc.annotation.NetSubscribe;
@@ -28,8 +31,15 @@ import java.util.List;
 public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<IBusinessView>>
         implements IBusinessView {
     private static final String TAG = "MainActivity";
-    @InjectView(R.id.tv_main_ui)
-    private TextView mTextView;
+    public static final String KEY_MAIN_ACTIVITY_LIVE_DATA = "KEY_MAIN_ACTIVITY_LIVE_DATA";
+
+    @InjectView(R.id.tv_next_page)
+    private TextView mTvNextPage;
+
+    @InjectView(R.id.tv_send_data)
+    private TextView mTvSendData;
+
+    private int mClickCnt = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,40 +47,61 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
         queryHotFix();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LiveDataBus.getInstance().with(KEY_MAIN_ACTIVITY_LIVE_DATA, String.class).observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String str) {
+                LogUtil.d(TAG, "LiveDataBus, OnChanged: str = " + str);
+                mTvSendData.setText(str);
+            }
+        });
+    }
+
     @NetSubscribe(mode = NetMode.WIFI_CONNECT)
     public void onWifiConnected() {
-        Toast.makeText(MainActivity.this, "wifi connected", Toast.LENGTH_SHORT).show();
+        LogUtil.d(TAG, "wifi connected");
     }
 
     @NetSubscribe(mode = NetMode.MOBILE_CONNECT)
     public void onMobileConnected() {
-        Toast.makeText(MainActivity.this, "mobile connected", Toast.LENGTH_SHORT).show();
+        LogUtil.d(TAG, "mobile connected");
     }
 
     @NetSubscribe(mode = NetMode.NONE)
     public void onLostNetwork() {
-        Toast.makeText(MainActivity.this, "lost network", Toast.LENGTH_SHORT).show();
+        LogUtil.d(TAG, "lost connected");
     }
 
     @NetSubscribe(mode = NetMode.AUTO)
     public void onNetChange(NetType netType) {
-        Toast.makeText(MainActivity.this, "network change", Toast.LENGTH_SHORT).show();
+        LogUtil.d(TAG, "network change");
     }
 
-    @OnClick(R.id.tv_main_ui)
-    private void clickTextView() {
-        Toast.makeText(MainActivity.this, "click test", Toast.LENGTH_SHORT).show();
+    @OnClick(R.id.tv_next_page)
+    private void clickNextPage() {
+        Intent intent = new Intent(this, SecondActivity.class);
+        startActivity(intent);
     }
 
-    @OnLongClick(R.id.tv_main_ui)
+    @OnClick(R.id.tv_send_data)
+    private void clickSendData() {
+        mClickCnt++;
+        LiveDataBus.getInstance().with(KEY_MAIN_ACTIVITY_LIVE_DATA, String.class).setValue(
+                "Send data in the same page, click count = " + mClickCnt);
+    }
+
+    @OnLongClick(R.id.tv_next_page)
     private boolean longClickTextView() {
-        Toast.makeText(MainActivity.this, "longclick test", Toast.LENGTH_SHORT).show();
+        LogUtil.d(TAG, "longclick test");
         return false;
     }
 
-    @OnTouch(R.id.tv_main_ui)
+    @OnTouch(R.id.tv_next_page)
     private boolean touchTextView() {
-        Toast.makeText(MainActivity.this, "touch test", Toast.LENGTH_SHORT).show();
+        LogUtil.d(TAG, "touch test");
         return false;
     }
 
@@ -110,5 +141,6 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LiveDataBus.getInstance().remove(KEY_MAIN_ACTIVITY_LIVE_DATA);
     }
 }

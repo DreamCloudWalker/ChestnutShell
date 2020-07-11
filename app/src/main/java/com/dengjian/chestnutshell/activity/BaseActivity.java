@@ -8,6 +8,7 @@ import com.dengjian.chestnutshell.ioc.InjectManager;
 import com.dengjian.chestnutshell.presenter.BasePresenter;
 
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
+    protected static final String TAG = BaseActivity.class.getSimpleName();
     public T mPresenter;
 
     @Override

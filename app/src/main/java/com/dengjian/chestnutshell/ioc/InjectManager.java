@@ -49,7 +49,7 @@ public class InjectManager {
     }
 
     public static void inject(Activity activity) {
-        init(activity);
+        init(activity.getApplicationContext());
         injectLayout(activity);
         injectView(activity);
         injectEvent(activity);
