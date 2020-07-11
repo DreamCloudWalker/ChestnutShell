@@ -131,11 +131,8 @@ public class InjectManager {
         ContentView contentView = clazz.getAnnotation(ContentView.class);
         if (null != contentView) {
             int layoutId = contentView.value();
-
-//            activity.setContentView(layoutId);
-
             try {
-                // 获取指定方法setContentView
+                // 获取指定方法setContentView，取代activity.setContentView(layoutId);
                 Method method = clazz.getMethod("setContentView", int.class);
                 method.invoke(activity, layoutId);
             } catch (Exception e) {

@@ -7,7 +7,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dengjian.chestnutshell.activity.BaseActivity;
-import com.dengjian.chestnutshell.ioc.InjectManager;
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
 import com.dengjian.chestnutshell.ioc.annotation.InjectView;
 import com.dengjian.chestnutshell.ioc.annotation.NetSubscribe;
@@ -35,23 +34,7 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 依赖注入
-        InjectManager.inject(this);
-
         queryHotFix();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        InjectManager.register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        InjectManager.unregister(this);
     }
 
     @NetSubscribe(mode = NetMode.WIFI_CONNECT)
