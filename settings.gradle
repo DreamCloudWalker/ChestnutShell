@@ -1,1 +1,5 @@
+include ':nutrouter'
+include ':annotations'
+include ':annotation_compiler'
+include ':nutlogin'
 include ':app'
