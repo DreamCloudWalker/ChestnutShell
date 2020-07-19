@@ -76,7 +76,7 @@ public class AnnotationsCompiler extends AbstractProcessor {
                 // 创建文件并返回java文件对象
                 JavaFileObject sourceFile = filer.createSourceFile("com.dengjian.router." + activityName);
                 writer = sourceFile.openWriter();
-                writer.write("package com.dengjian.nutrouter;\n");
+                writer.write("package com.dengjian.router;\n");
                 writer.write("import com.dengjian.nutrouter.NutRouter;\n");
                 writer.write("import com.dengjian.nutrouter.IRouter;\n");
                 writer.write("public class " + activityName + " implements IRouter {\n");

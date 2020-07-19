@@ -1,11 +1,6 @@
 package com.dengjian.chestnutshell.databus;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 
 import com.dengjian.chestnutshell.utils.LogUtil;
 
@@ -15,6 +10,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class LiveDataBus {
     private static final String TAG = "LiveDataBus";
@@ -63,7 +64,7 @@ public class LiveDataBus {
 
     public static class CustomMutableLiveData<T> extends MutableLiveData<T> {
         @Override
-        public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<T> observer) {
+        public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super T> observer) { // TODO check super
             super.observe(owner, observer);
             try {
                 hook(observer);
@@ -77,7 +78,7 @@ public class LiveDataBus {
             super.observe(owner, observer);
         }
 
-        private void hook(@NotNull Observer<T> observer) throws Exception {
+        private void hook(@NotNull Observer<? super T> observer) throws Exception {
             LogUtil.d(TAG, "Start of Hook");
             Class<LiveData> classLiveData = LiveData.class;
             Field fieldObservers = classLiveData.getDeclaredField("mObservers");    // 反射LiveData源码的mObservers

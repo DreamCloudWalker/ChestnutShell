@@ -1,10 +1,7 @@
 package com.dengjian.chestnutshell.activity;
 
-import android.arch.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dengjian.chestnutshell.R;
 import com.dengjian.chestnutshell.databus.LiveDataBus;
@@ -18,6 +15,9 @@ import com.dengjian.chestnutshell.utils.LogUtil;
 import com.dengjian.chestnutshell.view.IBusinessView;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import static com.dengjian.chestnutshell.activity.MainActivity.KEY_MAIN_ACTIVITY_LIVE_DATA;
 

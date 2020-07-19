@@ -1,13 +1,13 @@
 package com.dengjian.chestnutshell.activity;
 
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.dengjian.annotations.BindPath;
 import com.dengjian.chestnutshell.R;
 import com.dengjian.chestnutshell.databus.LiveDataBus;
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
@@ -23,10 +23,15 @@ import com.dengjian.chestnutshell.presenter.BusinessPresenter;
 import com.dengjian.chestnutshell.utils.FileUtil;
 import com.dengjian.chestnutshell.utils.LogUtil;
 import com.dengjian.chestnutshell.view.IBusinessView;
+import com.dengjian.nutrouter.NutRouter;
 
 import java.io.File;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
+@BindPath("main/main")
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<IBusinessView>>
         implements IBusinessView {
@@ -38,6 +43,9 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
 
     @InjectView(R.id.tv_send_data)
     private TextView mTvSendData;
+
+    @InjectView(R.id.btn_login)
+    private Button mBtnLogin;
 
     private int mClickCnt = 0;
 
@@ -84,6 +92,11 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     private void clickNextPage() {
         Intent intent = new Intent(this, SecondActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_login)
+    private void clickLogin() {
+        NutRouter.getInstance().startActivity("nutlogin/login", null);
     }
 
     @OnClick(R.id.tv_send_data)

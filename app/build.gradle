@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion versions.compileSdkVersion
+    buildToolsVersion versions.buildToolVersion
+
     defaultConfig {
         applicationId "com.dengjian.chestnutshell"
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionCode versions.versionCode
+        versionName versions.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // for hot fix
@@ -25,16 +27,17 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
-    implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.jakewharton:disklrucache:2.0.2'
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+    implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
+    debugImplementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttplogging"
+    implementation "com.google.code.gson:gson:$versions.gson"
+    implementation "com.jakewharton:disklrucache:$versions.disklrucache"
+    implementation "com.android.support:multidex:$versions.multidex"
     implementation project(path: ':annotations')
+    implementation project(path: ':nutrouter')
     annotationProcessor project(path: ':annotation_compiler')
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

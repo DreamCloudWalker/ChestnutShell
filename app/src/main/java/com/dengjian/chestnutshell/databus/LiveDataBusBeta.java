@@ -1,9 +1,10 @@
 package com.dengjian.chestnutshell.databus;
 
-import android.arch.lifecycle.MutableLiveData;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import androidx.lifecycle.MutableLiveData;
 
 public class LiveDataBusBeta {
     private final Map<String, MutableLiveData<Object>> mLiveDataBusBeta;
