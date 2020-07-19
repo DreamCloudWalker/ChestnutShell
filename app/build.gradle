@@ -30,6 +30,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
     implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
+    if (!IS_APPLICATION.toBoolean())
+        implementation project(path: ':nutlogin')
     debugImplementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttplogging"
     implementation "com.google.code.gson:gson:$versions.gson"
     implementation "com.jakewharton:disklrucache:$versions.disklrucache"
