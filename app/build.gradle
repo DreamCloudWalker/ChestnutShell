@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-aspectjx' // 或者：apply plugin: 'com.hujiang.android-aspectjx''
+aspectjx {
+    include 'com.dengjian.chestnutshell, com.dengjian.nutpermission'    // , com.dengjian.nutpermission
+//    exclude 'android.support, com.google'
+}
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -36,8 +41,10 @@ dependencies {
     implementation "com.google.code.gson:gson:$versions.gson"
     implementation "com.jakewharton:disklrucache:$versions.disklrucache"
     implementation "com.android.support:multidex:$versions.multidex"
+    implementation "androidx.recyclerview:recyclerview:$versions.recyclerview"
     implementation project(path: ':annotations')
     implementation project(path: ':nutrouter')
+    implementation project(path: ':nutpermission')
     annotationProcessor project(path: ':annotation_compiler')
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
     testImplementation 'junit:junit:4.12'
