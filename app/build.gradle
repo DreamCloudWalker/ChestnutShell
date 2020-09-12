@@ -50,4 +50,111 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    // ASM相关依赖
+    implementation "org.ow2.asm:asm:$versions.asm_version"
+    implementation "org.ow2.asm:asm-util:$versions.asm_version"
+    implementation "org.ow2.asm:asm-commons:$versions.asm_version"
 }
+
+//afterEvaluate({
+//    android.getApplicationVariants().all {
+//        variant ->
+//            // 获得debug/release
+//            String variantName = variant.name
+//            // 首字母大写，Debug
+//            String capitalizeName = variantName.capitalize()
+//
+//            // 找到transformClassesWithDexBuilderForDebug等任务的输入的.class文件，拿这些做插桩
+//            Task dexTask = project.getTasks().findByName(
+//                    "transformClassesWithDexBuilderFor" + capitalizeName)
+//            // 在这个任务执行之前做插桩
+//            dexTask.doFirst {
+//                // 任务的输入，所有class的jar包
+//                FileCollection files = dexTask.getInputs().getFiles()
+//                for (File file: files) {
+//                    // .jar -> 解压 -> 插桩 -> 压缩回去替换
+//                    String filePath = file.getAbsolutePath();
+//                    if (filePath.endsWith(".jar")) {
+//                        processJar(file);   // 解压jar包
+//                    } else if (filePath.endsWith(".class")) {
+//                        processClass(variant.getDirName(), file);
+//                    }
+//                }
+//            }
+//    }
+//})
+//
+//static void processClass(String dirName, File file) {
+//    String filePath = file.getAbsolutePath();
+//    String className = filePath.split(dirName)[1].substring(1); // 去掉目录，只留包名
+//    // 剔除不需要插桩的android源码和androidx源码
+//    if (className.startsWith("com\\dengjian\\chestnutshell\\MainApplication")
+//            || isAndroidClass(className)) {
+//        return ;
+//    }
+//
+//    FileInputStream is = null;
+//    FileOutputStream os = null;
+//    try {
+//        // byte[] -> class 修改byte[]
+//        is = new FileInputStream(filePath);
+//        // 执行插桩 byteCode: 插桩之后的class数据，把它替换掉插桩前的class文件
+//        byte[] byteCode = referHackWhenInit(is);
+//
+//        os = new FileOutputStream(filePath);
+//        os.write(byteCode);
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//    } finally {
+//        if (null != is) {
+//            try {
+//                is.close()
+//            } catch(Exception e) {
+//                e.printStackTrace()
+//            }
+//        }
+//        if (null != os) {
+//            try {
+//                os.close()
+//            } catch(Exception e) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
+//}
+//
+//static boolean isAndroidClass(String filePath) {
+//    return filePath.startsWith("android") || filePath.startsWith("androidx");
+//}
+//
+//// 字节码插桩
+//static byte[] referHackWhenInit(InputStream inputStream) throws IOException {
+//    // class解析器
+//    ClassReader cr = new ClassReader(inputStream);
+//    // class输出器
+//    ClassWriter cw = new ClassWriter(cr, 0);
+//    // class访问者，相当于回调
+//    ClassVisitor cv = new ClassVisitor(Opcodes.ASM5, cw) {
+//        @Override
+//        FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
+//            return super.visitField(access, name, desc, signature, value)
+//        }
+//
+//        @Override
+//        MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+//            MethodVisitor mv = super.visitMethod(access, name, signature, exceptions);
+//            mv = new MethodVisitor(Opcodes.ASM5, mv) {
+//                @Override
+//                void visitInsn(int opcode) {
+//                    if ("<init>".equals(name) && opcode == Opcodes.RETURN) {    // 构造函数插入AntilazyLoad引用
+//                        super.visitLdcInsn(Type.getType("Lcom/dengjian/"));  // Fixme
+//                    }
+//                    super.visitInsn(opcode);
+//                }
+//            }
+//
+//            return mv;
+//        }
+//    }
+//
+//}

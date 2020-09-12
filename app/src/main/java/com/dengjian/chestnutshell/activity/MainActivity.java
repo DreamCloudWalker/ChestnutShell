@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     private static final String TAG = "MainActivity";
     public static final String KEY_MAIN_ACTIVITY_LIVE_DATA = "KEY_MAIN_ACTIVITY_LIVE_DATA";
     private static final int CODE_CHECK_STORAGE_PERMISSION = 1;
+    private static final boolean ENABLE_HOT_FIX = true;
 
     @InjectView(R.id.tv_next_page)
     private TextView mTvNextPage;
@@ -61,7 +62,8 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queryHotFix();
+        if (ENABLE_HOT_FIX)
+            queryHotFix();
     }
 
     @Override

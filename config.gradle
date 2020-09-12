@@ -38,5 +38,6 @@ ext.versions = [
         exoplayer           : '2.10.6',
         glide               : '4.11.0',
         exo_player_core     : '2.11.3',
-        lottie              : '3.3.1'
+        lottie              : '3.3.1',
+        asm_version         : '8.0.1'
 ]
