@@ -1,6 +1,7 @@
 package com.dengjian.chestnutshell.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,6 +26,11 @@ import com.dengjian.chestnutshell.ioc.annotation.OnTouch;
 import com.dengjian.chestnutshell.ioc.typs.NetMode;
 import com.dengjian.chestnutshell.ioc.typs.NetType;
 import com.dengjian.chestnutshell.model.BusinessModel;
+import com.dengjian.chestnutshell.network.api.AMapWeatherApi;
+import com.dengjian.chestnutshell.network.api.Weather;
+import com.dengjian.chestnutshell.network.api.WeatherInterface;
+import com.dengjian.network.error.ErrorHandler;
+import com.dengjian.network.observer.BaseObserver;
 import com.dengjian.chestnutshell.presenter.BusinessPresenter;
 import com.dengjian.chestnutshell.utils.FileUtil;
 import com.dengjian.chestnutshell.utils.LogUtil;
@@ -38,6 +44,8 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
+
+import static com.dengjian.chestnutshell.network.api.AMapWeatherApi.AMAP_KEY;
 
 @BindPath("main/main")
 @ContentView(R.layout.activity_main)
@@ -56,6 +64,9 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
 
     @InjectView(R.id.btn_login)
     private Button mBtnLogin;
+
+    @InjectView(R.id.btn_weather)
+    private Button mBtnWeather;
 
     private int mClickCnt = 0;
 
@@ -108,6 +119,25 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @OnClick(R.id.btn_login)
     private void clickLogin() {
         NutRouter.getInstance().startActivity("nutlogin/login", null);
+    }
+
+    @SuppressLint("CheckResult")
+    @OnClick(R.id.btn_weather)
+    private void clickGetWeather() {
+        AMapWeatherApi.getService(WeatherInterface.class)
+                .getWeather("深圳", AMAP_KEY)
+                .compose(AMapWeatherApi.getInstance().subscribe(new BaseObserver<Weather>() {
+                    // compose 合并一系列操作
+                    @Override
+                    public void onSuccess(Weather weather) {
+
+                    }
+
+                    @Override
+                    public void onFailure(ErrorHandler.ResponseThrowable e) {
+                        e.printStackTrace();
+                    }
+                }));
     }
 
     @OnClick(R.id.tv_send_data)

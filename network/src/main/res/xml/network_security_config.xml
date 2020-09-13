@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--默认配置，不在domain-config范围内的所有连接所用的配置-->
+    <base-config cleartextTrafficPermitted="true" />
+
+    <domain-config>
+        <domain includeSubdomains="true">restapi.amap.com</domain>
+<!--            <trust-anchors>  &lt;!&ndash; 配置信任用户证书和系统证书 &ndash;&gt;-->
+<!--                <certificates src="user" /> &lt;!&ndash; 比如charles &ndash;&gt;-->
+<!--                <certificates src="system" />-->
+<!--            </trust-anchors>-->
+
+        <!--固定证书，防止中间人攻击， Android 7.0以上才可用-->
+        <pin-set expiration="2021-01-01">
+            <pin digest="SHA-256">/6WD2EQVJUtFa3zd+7JlFZtf5NYejXZI/qmPKSZsY5I=</pin>
+            <pin digest="SHA-256">IQBnNBEiFuhj+8x6X8XLgh01V9Ic5/V3IRQLNFFc7v4=</pin>
+        </pin-set>
+
+    </domain-config>
+
+</network-security-config>

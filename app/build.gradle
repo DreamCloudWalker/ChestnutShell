@@ -27,6 +27,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildToolsVersion = '28.0.3'
 }
 
@@ -35,6 +39,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$versions.appcompat"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
     implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
+    implementation project(path: ':network')
     if (!IS_APPLICATION.toBoolean())
         implementation project(path: ':nutlogin')
     debugImplementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttplogging"
