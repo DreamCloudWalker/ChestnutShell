@@ -1,6 +1,8 @@
 package com.dengjian.chestnutshell.network.api;
 
-public class BaseResponse {
+import java.io.Serializable;
+
+public class BaseResponse implements Serializable {
     public int status;
     public String info;
 }

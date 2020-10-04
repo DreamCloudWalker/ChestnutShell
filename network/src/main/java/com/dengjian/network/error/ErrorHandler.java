@@ -31,6 +31,11 @@ public class ErrorHandler {
             super(throwable);
             this.code = code;
         }
+
+        @Override
+        public String toString() {
+            return "ResponseThrowable{" + "code=" + code + ", message='" + message + '\'' + '}';
+        }
     }
 
     public static class ServerThrowable extends Exception {

@@ -7,7 +7,7 @@ import io.reactivex.functions.Function;
 
 public class AMapWeatherApi extends NetworkApi {
     public static volatile AMapWeatherApi sInstance;
-    public static final String AMAP_KEY = "4effbe0dfa18398078d861df88818455";
+    public static final String AMAP_KEY = "4e317f87c1924df1731cd8addf09d5a4";
 
     public static AMapWeatherApi getInstance() {
         if (null == sInstance) {
@@ -42,7 +42,7 @@ public class AMapWeatherApi extends NetworkApi {
             public T apply(T t) throws Exception {
                 if (t instanceof BaseResponse) {
                     BaseResponse response = (BaseResponse) t;
-                    if (-1 != response.status) {
+                    if (1 != response.status) {
                         throw new ErrorHandler.ServerThrowable(response.info, response.status);
                     }
                 }

@@ -52,13 +52,17 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/ic_bc" />
+        android:src="@mipmap/ic_hmx" />
 
     <TextView
         android:id="@+id/tv_console"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:background="@android:color/black"
-        android:layout_alignParentBottom="true" />
+        android:layout_height="300dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        tools:text="hello world"/>
 
 </RelativeLayout>

@@ -71,6 +71,9 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @InjectView(R.id.btn_weather)
     private Button mBtnWeather;
 
+    @InjectView(R.id.tv_console)
+    private TextView mTvConsole;
+
     private int mClickCnt = 0;
 
     @Override
@@ -133,16 +136,17 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @OnClick(R.id.btn_weather)
     private void clickGetWeather() {
         AMapWeatherApi.getService(WeatherInterface.class)
-                .getWeather("深圳", AMAP_KEY)
+                .getWeather("110101", AMAP_KEY)
                 .compose(AMapWeatherApi.getInstance().subscribe(new BaseObserver<Weather>() {
                     // compose 合并一系列操作
                     @Override
                     public void onSuccess(Weather weather) {
-
+                        mTvConsole.setText(weather.toString());
                     }
 
                     @Override
                     public void onFailure(ErrorHandler.ResponseThrowable e) {
+                        mTvConsole.setText(e.toString());
                         e.printStackTrace();
                     }
                 }));
