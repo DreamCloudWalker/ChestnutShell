@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity"
     tools:ignore="HardcodedText">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_pics"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false" />
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="登录"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"/>
+
+    <Button
+        android:id="@+id/btn_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请求天气"
+        android:layout_below="@id/btn_login"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"/>
 
     <TextView
         android:id="@+id/tv_next_page"
@@ -20,10 +30,9 @@
         android:text="Next Page"
         android:textStyle="bold"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/btn_weather"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         tools:ignore="HardcodedText" />
 
     <TextView
@@ -32,31 +41,24 @@
         android:layout_height="wrap_content"
         android:text="Send Data"
         android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_next_page"
-        android:layout_marginTop="30dp"
+        android:layout_below="@id/tv_next_page"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         tools:ignore="HardcodedText" />
 
-    <Button
-        android:id="@+id/btn_login"
+    <ImageView
+        android:id="@+id/iv_explosion_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="登录"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_send_data"
-        android:layout_marginTop="15dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_launcher" />
 
-    <Button
-        android:id="@+id/btn_weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="请求天气"
-        android:layout_marginStart="15dp"
-        app:layout_constraintLeft_toLeftOf="@id/btn_login"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_send_data"
-        android:layout_marginTop="15dp"/>
+    <TextView
+        android:id="@+id/tv_console"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@android:color/black"
+        android:layout_alignParentBottom="true" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

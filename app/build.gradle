@@ -40,6 +40,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
     implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
     implementation project(path: ':network')
+    implementation project(path: ':common')
     if (!IS_APPLICATION.toBoolean())
         implementation project(path: ':nutlogin')
     debugImplementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttplogging"

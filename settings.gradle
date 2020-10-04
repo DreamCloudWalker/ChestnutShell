@@ -1,3 +1,4 @@
+include ':common'
 include ':network'
 include ':nutpermission'
 include ':nutrouter'

@@ -11,12 +11,15 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dengjian.annotations.BindPath;
 import com.dengjian.chestnutshell.R;
 import com.dengjian.chestnutshell.databus.LiveDataBus;
+import com.dengjian.chestnutshell.highlevelui.particleexplode.ExplosionView;
+import com.dengjian.chestnutshell.highlevelui.particleexplode.FallingParticleFactory;
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
 import com.dengjian.chestnutshell.ioc.annotation.InjectView;
 import com.dengjian.chestnutshell.ioc.annotation.NetSubscribe;
@@ -75,6 +78,11 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
         super.onCreate(savedInstanceState);
         if (ENABLE_HOT_FIX)
             queryHotFix();
+
+        ImageView mIvExplosionView = findViewById(R.id.iv_explosion_view);
+        ExplosionView explosionView = new ExplosionView(this);
+        explosionView.setParticleFactory(new FallingParticleFactory());
+        explosionView.addListener(mIvExplosionView);
     }
 
     @Override
