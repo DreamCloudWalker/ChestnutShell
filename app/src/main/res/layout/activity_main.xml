@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_bc" />
 
     <TextView
         android:id="@+id/tv_console"

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FallingParticleFactory extends ParticleFactory {
-    public static final float PART_WH = 10.0f;
+    public static final float PART_WH = 5.0f;
 
     @Override
     public Particle[] generateParticles(Bitmap bitmap, Rect rect) {

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExplosionView extends View {
+    private static final String TAG = "ExplosionView";
     private final List<ExplosionAnimator> mExplosionAnimators;
     private ParticleFactory mParticleFactory;
     private OnClickListener onClickListener;
@@ -38,13 +40,8 @@ public class ExplosionView extends View {
 
     private OnClickListener getOnClickListener() {
         if (null == onClickListener) {
-            onClickListener = new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 触发先震动后爆炸
-                    shake(v);
-                }
-            };
+            // 触发先震动后爆炸
+            onClickListener = this::shake;
         }
 
         return onClickListener;
@@ -58,13 +55,13 @@ public class ExplosionView extends View {
 
         // 震动
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1).setDuration(150);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                // 横竖向随机一个值震动
-                view.setTranslationX(Utils.RANDOM.nextFloat() - 0.5f * view.getWidth() * 0.05f);
-                view.setTranslationY(Utils.RANDOM.nextFloat() - 0.5f * view.getHeight() * 0.05f);
-            }
+        animator.addUpdateListener(animation -> {
+            // 横竖向随机一个值震动
+            float translateX = (Utils.RANDOM.nextFloat() - 0.5f) * view.getWidth() * 0.05f;
+            float translateY = (Utils.RANDOM.nextFloat() - 0.5f) * view.getHeight() * 0.05f;
+//            Log.d(TAG, "shake, translateX = " + translateX + ", translateY = " + translateY);
+            view.setTranslationX(translateX);
+            view.setTranslationY(translateY);
         });
         animator.addListener(new Animator.AnimatorListener() {
             @Override

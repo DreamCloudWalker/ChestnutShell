@@ -4,10 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.dengjian.common.utils.Utils;
 
 public class FallingParticle extends Particle {
+    private static final String TAG = "FallingParticle";
     private final Rect mBound;
     private float mRadius = FallingParticleFactory.PART_WH;
     private float mAlpha = 1.0f;
