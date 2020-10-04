@@ -54,6 +54,14 @@
         android:layout_marginTop="10dp"
         android:src="@mipmap/ic_hmx" />
 
+    <ImageView
+        android:id="@+id/iv_koi_fish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/iv_explosion_view" />
+
     <TextView
         android:id="@+id/tv_console"
         android:layout_width="match_parent"

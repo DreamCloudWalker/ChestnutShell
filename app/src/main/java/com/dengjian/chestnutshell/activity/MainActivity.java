@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.dengjian.annotations.BindPath;
 import com.dengjian.chestnutshell.R;
 import com.dengjian.chestnutshell.databus.LiveDataBus;
+import com.dengjian.chestnutshell.highlevelui.koifish.KoiFishDrawable;
 import com.dengjian.chestnutshell.highlevelui.particleexplode.ExplosionView;
 import com.dengjian.chestnutshell.highlevelui.particleexplode.FallingParticleFactory;
 import com.dengjian.chestnutshell.ioc.annotation.ContentView;
@@ -74,6 +75,12 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @InjectView(R.id.tv_console)
     private TextView mTvConsole;
 
+    @InjectView(R.id.iv_explosion_view)
+    private ImageView mIvExplosionView;
+
+    @InjectView(R.id.iv_koi_fish)
+    private ImageView mIvKoiFish;
+
     private int mClickCnt = 0;
 
     @Override
@@ -82,10 +89,11 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
         if (ENABLE_HOT_FIX)
             queryHotFix();
 
-        ImageView mIvExplosionView = findViewById(R.id.iv_explosion_view);
         ExplosionView explosionView = new ExplosionView(this);
         explosionView.setParticleFactory(new FallingParticleFactory());
         explosionView.addListener(mIvExplosionView);
+
+        mIvKoiFish.setImageDrawable(new KoiFishDrawable());
     }
 
     @Override
