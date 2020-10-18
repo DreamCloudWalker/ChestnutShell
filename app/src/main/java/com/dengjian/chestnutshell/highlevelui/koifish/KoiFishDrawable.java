@@ -1,5 +1,6 @@
 package com.dengjian.chestnutshell.highlevelui.koifish;
 
+import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -7,6 +8,7 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +44,7 @@ public class KoiFishDrawable extends Drawable {
 
     private PointF mMiddlePnt;
     private float mFishMainAngle = 90f;
+    private float mCurrentValue = 0f;
 
     public KoiFishDrawable() {
         mPath = new Path();
@@ -57,6 +60,20 @@ public class KoiFishDrawable extends Drawable {
         mPaint.setDither(true); // 防抖
 
         mMiddlePnt = new PointF(4.18f * FISH_HEAD_RADIUS, 4.18f * FISH_HEAD_RADIUS);
+
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 360);
+        valueAnimator.setDuration(1500);
+        valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                mCurrentValue = (float) animator.getAnimatedValue();
+                invalidateSelf();
+            }
+        });
+        valueAnimator.start();
     }
 
     /**
@@ -73,7 +90,7 @@ public class KoiFishDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        float fishAngle = mFishMainAngle;
+        float fishAngle = (float) (mFishMainAngle + Math.sin(Math.toRadians(mCurrentValue)) * 10);
 
         // draw fish head
         PointF headPnt = calculatePoint(mMiddlePnt, BODY_LENGTH / 2, fishAngle);
@@ -88,12 +105,10 @@ public class KoiFishDrawable extends Drawable {
 
         // draw segment 1
         PointF bodyBottomCenterPnt = calculatePoint(headPnt, BODY_LENGTH, fishAngle - 180);
-        makeSegment(canvas, bodyBottomCenterPnt, BIG_CIRCLE_RADIUS, MIDDLE_CIRCLE_RADIUS,
-                FIND_MIDDLE_CIRCLE_LENGTH, fishAngle, true);
+        PointF middleCircleCenterPnt = makeSegment(canvas, bodyBottomCenterPnt, BIG_CIRCLE_RADIUS,
+                MIDDLE_CIRCLE_RADIUS, FIND_MIDDLE_CIRCLE_LENGTH, fishAngle, true);
 
         // draw segment 2
-        PointF middleCircleCenterPnt = calculatePoint(bodyBottomCenterPnt,
-                FIND_MIDDLE_CIRCLE_LENGTH, fishAngle - 180);
         makeSegment(canvas, middleCircleCenterPnt, MIDDLE_CIRCLE_RADIUS, SMALL_CIRCLE_RADIUS,
                 FIND_SMALL_CIRCLE_LENGTH, fishAngle, false);
 
@@ -144,16 +159,25 @@ public class KoiFishDrawable extends Drawable {
         canvas.drawPath(mPath, mPaint);
     }
 
-    private void makeSegment(Canvas canvas, PointF bottomCenterPnt, float bigRadius,
+    private PointF makeSegment(Canvas canvas, PointF bottomCenterPnt, float bigRadius,
             float smallRadius, float findSmallCircleLength, float fishAngle, boolean hasBigCircle) {
+        float segmentAngle;
+        if (hasBigCircle) {
+            segmentAngle = (float) (mFishMainAngle + Math.cos(Math.toRadians(mCurrentValue * 2)) *
+                    20);
+        } else {
+            segmentAngle = (float) (mFishMainAngle + Math.sin(Math.toRadians(mCurrentValue * 3)) *
+                    20);
+        }
+
         // 梯形上️底中心点
         PointF upperCenterPnt = calculatePoint(bottomCenterPnt, findSmallCircleLength,
-                fishAngle - 180);
+                segmentAngle - 180);
         // 梯形的4个点
-        PointF bottomLeftPnt = calculatePoint(bottomCenterPnt, bigRadius, fishAngle + 90);
-        PointF bottomRightPnt = calculatePoint(bottomCenterPnt, bigRadius, fishAngle - 90);
-        PointF upperLeftPnt = calculatePoint(upperCenterPnt, smallRadius, fishAngle + 90);
-        PointF upperRightPnt = calculatePoint(upperCenterPnt, smallRadius, fishAngle - 90);
+        PointF bottomLeftPnt = calculatePoint(bottomCenterPnt, bigRadius, segmentAngle + 90);
+        PointF bottomRightPnt = calculatePoint(bottomCenterPnt, bigRadius, segmentAngle - 90);
+        PointF upperLeftPnt = calculatePoint(upperCenterPnt, smallRadius, segmentAngle + 90);
+        PointF upperRightPnt = calculatePoint(upperCenterPnt, smallRadius, segmentAngle - 90);
         if (hasBigCircle) {
             canvas.drawCircle(bottomCenterPnt.x, bottomCenterPnt.y, bigRadius, mPaint);
         }
@@ -165,15 +189,19 @@ public class KoiFishDrawable extends Drawable {
         mPath.lineTo(upperRightPnt.x, upperRightPnt.y);
         mPath.lineTo(bottomRightPnt.x, bottomRightPnt.y);
         canvas.drawPath(mPath, mPaint);
+
+        return upperCenterPnt;
     }
 
     private void makeTriangle(Canvas canvas, PointF startPnt, float findCenterLength,
             float findEdgeLength, float fishAngle) {
+        float triangleAngle = (float) (mFishMainAngle + Math.sin(
+                Math.toRadians(mCurrentValue * 3)) * 30);
         // 三角形底边中心点
-        PointF centerPnt = calculatePoint(startPnt, findCenterLength, fishAngle - 180);
+        PointF centerPnt = calculatePoint(startPnt, findCenterLength, triangleAngle - 180);
         // 三角形底边的两点
-        PointF leftPnt = calculatePoint(centerPnt, findEdgeLength, fishAngle + 90);
-        PointF rightPnt = calculatePoint(centerPnt, findEdgeLength, fishAngle - 90);
+        PointF leftPnt = calculatePoint(centerPnt, findEdgeLength, triangleAngle + 90);
+        PointF rightPnt = calculatePoint(centerPnt, findEdgeLength, triangleAngle - 90);
 
         // draw triangle
         mPath.reset();
