@@ -78,9 +78,6 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
     @InjectView(R.id.iv_explosion_view)
     private ImageView mIvExplosionView;
 
-    @InjectView(R.id.iv_koi_fish)
-    private ImageView mIvKoiFish;
-
     private int mClickCnt = 0;
 
     @Override
@@ -92,8 +89,6 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
         ExplosionView explosionView = new ExplosionView(this);
         explosionView.setParticleFactory(new FallingParticleFactory());
         explosionView.addListener(mIvExplosionView);
-
-        mIvKoiFish.setImageDrawable(new KoiFishDrawable());
     }
 
     @Override

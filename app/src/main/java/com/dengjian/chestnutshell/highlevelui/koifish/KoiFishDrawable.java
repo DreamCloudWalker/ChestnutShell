@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class KoiFishDrawable extends Drawable {
-    public static final float FISH_HEAD_RADIUS = 50;
+    public static final float FISH_HEAD_RADIUS = 30;
     private static final int FISH_OTHER_ALPHA = 110; // 鱼身之外的透明度
     private static final int FISH_BODY_ALPHA = 160;
 
@@ -42,6 +42,7 @@ public class KoiFishDrawable extends Drawable {
     private final Path mPath;
     private final Paint mPaint;
 
+    private PointF mHeadPnt;
     private PointF mMiddlePnt;
     private float mFishMainAngle = 90f;
     private float mCurrentValue = 0f;
@@ -93,18 +94,18 @@ public class KoiFishDrawable extends Drawable {
         float fishAngle = (float) (mFishMainAngle + Math.sin(Math.toRadians(mCurrentValue)) * 10);
 
         // draw fish head
-        PointF headPnt = calculatePoint(mMiddlePnt, BODY_LENGTH / 2, fishAngle);
-        canvas.drawCircle(headPnt.x, headPnt.y, FISH_HEAD_RADIUS, mPaint);
+        mHeadPnt = calculatePoint(mMiddlePnt, BODY_LENGTH / 2, fishAngle);
+        canvas.drawCircle(mHeadPnt.x, mHeadPnt.y, FISH_HEAD_RADIUS, mPaint);
 
         // draw fish fins
-        PointF rightFinsPnt = calculatePoint(headPnt, FIND_FINS_LENGTH, fishAngle - 110);
+        PointF rightFinsPnt = calculatePoint(mHeadPnt, FIND_FINS_LENGTH, fishAngle - 110);
         makeFins(canvas, rightFinsPnt, fishAngle, true);
 
-        PointF leftFinsPnt = calculatePoint(headPnt, FIND_FINS_LENGTH, fishAngle + 110);
+        PointF leftFinsPnt = calculatePoint(mHeadPnt, FIND_FINS_LENGTH, fishAngle + 110);
         makeFins(canvas, leftFinsPnt, fishAngle, false);
 
         // draw segment 1
-        PointF bodyBottomCenterPnt = calculatePoint(headPnt, BODY_LENGTH, fishAngle - 180);
+        PointF bodyBottomCenterPnt = calculatePoint(mHeadPnt, BODY_LENGTH, fishAngle - 180);
         PointF middleCircleCenterPnt = makeSegment(canvas, bodyBottomCenterPnt, BIG_CIRCLE_RADIUS,
                 MIDDLE_CIRCLE_RADIUS, FIND_MIDDLE_CIRCLE_LENGTH, fishAngle, true);
 
@@ -119,7 +120,7 @@ public class KoiFishDrawable extends Drawable {
                 BIG_CIRCLE_RADIUS - 20, fishAngle);
 
         // draw body
-        makeBody(canvas, headPnt, bodyBottomCenterPnt, fishAngle);
+        makeBody(canvas, mHeadPnt, bodyBottomCenterPnt, fishAngle);
     }
 
     private void makeBody(Canvas canvas, PointF headPnt, PointF bodyBottomCenterPnt,
@@ -234,5 +235,17 @@ public class KoiFishDrawable extends Drawable {
     @Override
     public int getIntrinsicWidth() {
         return (int) (8.38f * FISH_HEAD_RADIUS);
+    }
+
+    public PointF getHeadPnt() {
+        return mHeadPnt;
+    }
+
+    public PointF getMiddlePnt() {
+        return mMiddlePnt;
+    }
+
+    public void setFishMainAngle(float fishMainAngle) {
+        this.mFishMainAngle = fishMainAngle;
     }
 }
