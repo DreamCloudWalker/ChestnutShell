@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/ic_hmx" />
+        android:src="@mipmap/ic_bc" />
 
     <TextView
         android:id="@+id/tv_console"
@@ -65,5 +65,12 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         tools:text="hello world"/>
+    
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:progress="100"
+        android:layout_below="@id/tv_send_data"/>
 
 </com.dengjian.chestnutshell.highlevelui.koifish.FishRelativeLayout>

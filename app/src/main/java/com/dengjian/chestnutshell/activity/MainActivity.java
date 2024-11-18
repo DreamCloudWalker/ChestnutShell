@@ -51,7 +51,7 @@ import androidx.lifecycle.Observer;
 
 import static com.dengjian.chestnutshell.network.api.AMapWeatherApi.AMAP_KEY;
 
-@BindPath("main/main")
+@BindPath(path = "main/main")
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<IBusinessView>>
         implements IBusinessView {

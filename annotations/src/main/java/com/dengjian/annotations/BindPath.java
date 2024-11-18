@@ -8,5 +8,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
 public @interface BindPath {
-    String value(); // Activity放入NutRouter容器的KEY
+    String path(); // Activity放入NutRouter容器的KEY
+    String group() default "";
 }

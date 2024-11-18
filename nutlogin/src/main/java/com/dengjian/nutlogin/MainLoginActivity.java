@@ -6,7 +6,7 @@ import com.dengjian.annotations.BindPath;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-@BindPath("nutlogin/login")
+@BindPath(path = "nutlogin/login")
 public class MainLoginActivity extends AppCompatActivity {
 
     @Override

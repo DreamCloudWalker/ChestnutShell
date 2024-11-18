@@ -3,6 +3,7 @@ package com.dengjian.chestnutshell.activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.dengjian.annotations.BindPath;
 import com.dengjian.chestnutshell.R;
 import com.dengjian.chestnutshell.databus.LiveDataBus;
 import com.dengjian.chestnutshell.databus.LiveDataBusBeta;
@@ -21,6 +22,7 @@ import androidx.lifecycle.Observer;
 
 import static com.dengjian.chestnutshell.activity.MainActivity.KEY_MAIN_ACTIVITY_LIVE_DATA;
 
+@BindPath(path = "main/second")
 @ContentView(R.layout.activity_second)
 public class SecondActivity extends BaseActivity<IBusinessView, BusinessPresenter<IBusinessView>>
         implements IBusinessView {

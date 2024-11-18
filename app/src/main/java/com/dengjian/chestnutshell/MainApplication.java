@@ -7,6 +7,7 @@ import com.dengjian.chestnutshell.network.AppNetworkInfo;
 import com.dengjian.chestnutshell.network.HttpProcessorProxy;
 import com.dengjian.chestnutshell.network.proxy.OkHttpProcessor;
 import com.dengjian.chestnutshell.utils.FixDexUtil;
+import com.dengjian.common.utils.StorageUtil;
 import com.dengjian.network.NetworkApi;
 import com.dengjian.nutrouter.NutRouter;
 
@@ -16,6 +17,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        StorageUtil.init(this);
         NetworkApi.init(new AppNetworkInfo(this));
         NutRouter.getInstance().init(this);
 

@@ -1,9 +1,11 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-aspectjx' // 或者：apply plugin: 'com.hujiang.android-aspectjx''
-aspectjx {
-    include 'com.dengjian.chestnutshell, com.dengjian.nutpermission'    // , com.dengjian.nutpermission
-//    exclude 'android.support, com.google'
-}
+//apply plugin: 'android-aspectjx' // 或者：apply plugin: 'com.hujiang.android-aspectjx''
+//aspectjx {
+//    include 'com.dengjian.chestnutshell, com.dengjian.nutpermission'    // , com.dengjian.nutpermission
+////    exclude 'android.support, com.google'
+//}
+
+def versions = rootProject.ext.versions // 缓存，优化性能
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -20,6 +22,13 @@ android {
         // for hot fix
         multiDexEnabled true
         multiDexKeepFile file('multidex.keep')
+
+        // 传参给Java工程（注解处理器）
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [appInfo: "pass this value to java module"]
+            }
+        }
     }
     buildTypes {
         release {
@@ -51,6 +60,8 @@ dependencies {
     implementation project(path: ':annotations')
     implementation project(path: ':nutrouter')
     implementation project(path: ':nutpermission')
+
+    // 依赖注解处理器，注解处理器才会开始工作
     annotationProcessor project(path: ':annotation_compiler')
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$versions.leakcanary"
     testImplementation 'junit:junit:4.12'

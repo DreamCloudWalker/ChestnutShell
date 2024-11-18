@@ -78,7 +78,7 @@ public abstract class NetworkApi {
                 .add("restapi.amap.com", "sha256/IQBnNBEiFuhj+8x6X8XLgh01V9Ic5/V3IRQLNFFc7v4=").build());
 
         if (null != mNetworkRequiredInfo) {
-            builder.dns(new AlibabaDns(mNetworkRequiredInfo.getApplicationContext()));
+//            builder.dns(new AlibabaDns(mNetworkRequiredInfo.getApplicationContext()));
         }
 
         mOkHttpClient = builder.build();
