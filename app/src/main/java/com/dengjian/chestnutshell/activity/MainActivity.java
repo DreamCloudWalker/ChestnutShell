@@ -33,6 +33,8 @@ import com.dengjian.chestnutshell.model.BusinessModel;
 import com.dengjian.chestnutshell.network.api.AMapWeatherApi;
 import com.dengjian.chestnutshell.network.api.Weather;
 import com.dengjian.chestnutshell.network.api.WeatherInterface;
+import com.dengjian.common.autoservice.IWebViewInterface;
+import com.dengjian.common.autoservice.NutServiceLoader;
 import com.dengjian.network.error.ErrorHandler;
 import com.dengjian.network.observer.BaseObserver;
 import com.dengjian.chestnutshell.presenter.BusinessPresenter;
@@ -42,9 +44,12 @@ import com.dengjian.chestnutshell.view.IBusinessView;
 import com.dengjian.nutpermission.annotations.PermissionDenied;
 import com.dengjian.nutpermission.annotations.PermissionNeed;
 import com.dengjian.nutrouter.NutRouter;
+import com.dengjian.webview.WebviewActivity;
+import com.dengjian.webview.utils.WebViewConstants;
 
 import java.io.File;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -62,6 +67,9 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
 
     @InjectView(R.id.tv_next_page)
     private TextView mTvNextPage;
+
+    @InjectView(R.id.btn_webview)
+    private Button mBtnWebview;
 
     @InjectView(R.id.tv_send_data)
     private TextView mTvSendData;
@@ -162,6 +170,16 @@ public class MainActivity extends BaseActivity<IBusinessView, BusinessPresenter<
                 "Send data in the same page, click count = " + mClickCnt);
 
         loadPicData();
+    }
+
+    @OnClick(R.id.btn_webview)
+    private void jumpToWebview() {
+//        startActivity(new Intent(this, WebviewActivity.class));
+        IWebViewInterface webviewService = NutServiceLoader.load(IWebViewInterface.class);
+        if (null != webviewService) {
+            webviewService.startWebViewActivity(MainActivity.this, "https://www.baidu.com",
+                    "百度", true);
+        }
     }
 
     @OnLongClick(R.id.tv_next_page)

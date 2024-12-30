@@ -16,6 +16,14 @@
         android:layout_marginStart="15dp"/>
 
     <Button
+        android:id="@+id/btn_webview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="网页"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="15dp" />
+
+    <Button
         android:id="@+id/btn_weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

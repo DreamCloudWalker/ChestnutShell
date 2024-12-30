@@ -4,8 +4,8 @@ ext.versions = [
 
         minSdkVersion       : 23,
         targetSdkVersion    : 28,
-        compileSdkVersion   : 29,
-        buildToolVersion    : '29.0.2',
+        compileSdkVersion   : 34,
+        buildToolVersion    : '34.0.0',
 
         // android
         appcompat           : '1.1.0',
@@ -41,5 +41,6 @@ ext.versions = [
         glide               : '4.11.0',
         exo_player_core     : '2.11.3',
         lottie              : '3.3.1',
-        asm_version         : '8.0.1'
+        asm_version         : '8.0.1',
+        google_auto_service : '1.0-rc7'
 ]

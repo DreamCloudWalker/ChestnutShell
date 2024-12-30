@@ -36,11 +36,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        dataBinding true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion = '28.0.3'
 }
 
 dependencies {
@@ -50,6 +53,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$versions.okhttp"
     implementation project(path: ':network')
     implementation project(path: ':common')
+    implementation project(path: ':webview')
     if (!IS_APPLICATION.toBoolean())
         implementation project(path: ':nutlogin')
     debugImplementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttplogging"
@@ -71,6 +75,17 @@ dependencies {
     implementation "org.ow2.asm:asm:$versions.asm_version"
     implementation "org.ow2.asm:asm-util:$versions.asm_version"
     implementation "org.ow2.asm:asm-commons:$versions.asm_version"
+
+    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
 
 //afterEvaluate({
